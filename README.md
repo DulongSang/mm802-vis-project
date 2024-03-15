@@ -4,12 +4,6 @@
 - [Dulong Sang](https://github.com/DulongSang): dulong &lt;at&gt; ualberta &lt;dot&gt; ca
 - [Mingwei Lu](https://github.com/MingweiLu): mlu1 &lt;at&gt; ualberta &lt;dot&gt; ca
 
-
-## Data Source
-
-[Fire Response: Current and Historical](https://data.edmonton.ca/Emergency-Services/Fire-Response-Current-and-Historical/7hsn-idqi/about_data) on City of Edmonton's Open Data Portal
-
-
 ## Installation
 
 ### Requirements
@@ -88,3 +82,18 @@ git fetch
 git rebase origin/main
 git push -f
 ```
+
+# Reference
+
+## Packages
+
+- [typescript](https://github.com/microsoft/TypeScript)
+- [react](https://github.com/facebook/react)
+- [react-scripts](https://github.com/facebook/create-react-app)
+- [react-bootstrap-icons](https://github.com/ismamz/react-bootstrap-icons)
+- [d3](https://github.com/d3/d3)
+- [material-ui](https://github.com/mui/material-ui)
+
+## Data Source
+
+[Fire Response: Current and Historical](https://data.edmonton.ca/Emergency-Services/Fire-Response-Current-and-Historical/7hsn-idqi/about_data) on City of Edmonton's Open Data Portal
