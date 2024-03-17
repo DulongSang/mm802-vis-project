@@ -49,7 +49,6 @@ export function FilterItem(props: FilterItemProps) {
                 value={filterValue.type}
                 onChange={handleConditionChange}
               >
-                <MenuItem value=""><em>Select ...</em></MenuItem>
                 {filterTypes.map((filterType) => <MenuItem value={filterType} key={filterType}>{filterType}</MenuItem>)}
               </Select>
             </FormControl>
