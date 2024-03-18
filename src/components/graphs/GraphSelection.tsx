@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select"
 
 import { GraphTab, PieChartTab, graphTabTypes } from "../../types/GraphTab";
-import { columnNames } from "../../types/DataSetInfo";
+import { groupByColumnNames } from "../../types/DataSetInfo";
 
 export function GraphSelection(props: GraphSelectionProps) {
   const { graphTab, setGraphTab } = props;
@@ -31,10 +31,10 @@ export function GraphSelection(props: GraphSelectionProps) {
       case "Pie Chart":
         return (
           <>
-            {getSelectComponent("Group By", columnNames, graphTab.groupByColumn ?? "", (event) => {
+            {getSelectComponent("Group By", groupByColumnNames, graphTab.groupByColumn ?? "", (event) => {
               setGraphTab({ ...graphTab, groupByColumn: event.target.value as PieChartTab['groupByColumn'] });
             })}
-            {getSelectComponent("Value", columnNames, graphTab.valueColumn ?? "", (event) => {
+            {getSelectComponent("Value", groupByColumnNames, graphTab.valueColumn ?? "", (event) => {
               setGraphTab({ ...graphTab, valueColumn: event.target.value as PieChartTab['valueColumn'] });
             })}
           </>

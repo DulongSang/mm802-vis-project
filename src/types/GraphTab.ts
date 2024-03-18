@@ -1,4 +1,4 @@
-import { ColumnName } from "./DataSetInfo";
+import { GroupByColumnName } from "./DataSetInfo";
 
 export type GraphTabBase = {
     title: string;
@@ -7,8 +7,8 @@ export type GraphTabBase = {
 
 export type PieChartTab = GraphTabBase & {
     type: 'Pie Chart';
-    groupByColumn?: ColumnName;
-    valueColumn?: ColumnName;
+    groupByColumn?: GroupByColumnName;
+    valueColumn?: GroupByColumnName;
 };
 
 export type MapTab = GraphTabBase & {
