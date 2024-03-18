@@ -2,7 +2,8 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select"
 
 import { GraphTab, PieChartTab, graphTabTypes } from "../../types/GraphTab";
-import { groupByColumnNames } from "../../types/DataSetInfo";
+import { groupByColumnNames, groupByValueColumnNames } from "../../types/DataSetInfo";
+import { groupAggOpValues } from "../../utils/processData";
 
 export function GraphSelection(props: GraphSelectionProps) {
   const { graphTab, setGraphTab } = props;
@@ -31,12 +32,17 @@ export function GraphSelection(props: GraphSelectionProps) {
       case "Pie Chart":
         return (
           <>
+            {getSelectComponent("Aggregation", groupAggOpValues, graphTab.groupAggOp ?? "", (event) => {
+              setGraphTab({ ...graphTab, groupAggOp: event.target.value as PieChartTab['groupAggOp'] });
+            })}
             {getSelectComponent("Group By", groupByColumnNames, graphTab.groupByColumn ?? "", (event) => {
               setGraphTab({ ...graphTab, groupByColumn: event.target.value as PieChartTab['groupByColumn'] });
             })}
-            {getSelectComponent("Value", groupByColumnNames, graphTab.valueColumn ?? "", (event) => {
-              setGraphTab({ ...graphTab, valueColumn: event.target.value as PieChartTab['valueColumn'] });
-            })}
+            {graphTab.groupAggOp !== 'count'
+              ? (getSelectComponent("Value", groupByValueColumnNames, graphTab.valueColumn ?? "", (event) => {
+                  setGraphTab({ ...graphTab, valueColumn: event.target.value as PieChartTab['valueColumn'] });
+                }))
+              : <></>}
           </>
         );
       case "Map":

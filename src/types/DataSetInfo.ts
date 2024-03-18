@@ -45,13 +45,18 @@ export const columnNames: ColumnName[] = [
     'response_code',
 ];
 
-export const groupByColumnNames: ColumnName[] = [
+export const groupByColumnNames = [
     'year',
     'month',
     'dayofweek',
-    'event_duration_mins',
     'event_description',
     'response_code',
-];
+] as const;
 
 export type GroupByColumnName = typeof groupByColumnNames[number];
+
+export const groupByValueColumnNames = [
+    'event_duration_mins',
+] as const;
+
+export type GroupByValueColumnName = typeof groupByValueColumnNames[number];
