@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { Box, IconButton, Tab, Tabs, Tooltip } from "@mui/material";
 import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
+import { DataFrame } from "danfojs";
 
 import { GraphSelection } from "./GraphSelection";
 import { MapGraph } from "./MapGraph";
+import { PieChartGraph } from "./PieChartGraph";
 
 import { GraphTab } from "../../types/GraphTab";
 
 
-export function GraphContainer() {
+export function GraphContainer(props: GraphContainerProps) {
+  const { dataRef } = props;
+
   const [tabs, setTabs] = useState<GraphTab[]>([]);
   const [activeTab, setActiveTab] = useState<number>(0);
 
@@ -42,35 +46,47 @@ export function GraphContainer() {
     }
     switch (graphTab.type) {
       case "Map":
-        console.log("map");
         return <MapGraph />;
+      case "Pie Chart":
+        return <PieChartGraph dataRef={dataRef} graphTab={graphTab} />;
       default:
         return <></>;
     }
   })();
+  
+  const tabsComponent = (
+    <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex' }}>
+      <Tabs value={activeTab} onChange={handleTabChange}>
+        {tabs.map((tab, index) => (
+          <Tab key={index} label={tab.title} iconPosition="end" icon={
+            <Tooltip title="Remove Tab">
+              <IconButton className=".icon-button" size="small" onClick={(event) => removeTab(event, index)}><ClearIcon fontSize="small" /></IconButton>
+            </Tooltip>
+          } />
+        ))}
+      </Tabs>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Tooltip title="Add tab">
+          <IconButton onClick={addTab}><AddIcon /></IconButton>
+        </Tooltip>
+      </div>
+    </Box>
+  );
+  const containerComponent = (
+    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+      {graphTab ? <GraphSelection graphTab={graphTab} setGraphTab={setGraphTab} /> : <></>}
+      <div style={{ flex: 1, margin: '12px' }}>{graphComponent}</div>
+    </div>
+  );
 
   return (
-    <div style={{ flex: 4, border: '3px solid #ccc', borderRadius: '10px', margin: '0 10px', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex' }}>
-        <Tabs value={activeTab} onChange={handleTabChange}>
-          {tabs.map((tab, index) => (
-            <Tab key={index} label={tab.title} iconPosition="end" icon={
-              <Tooltip title="Remove Tab">
-                <IconButton className=".icon-button" size="small" onClick={(event) => removeTab(event, index)}><ClearIcon fontSize="small" /></IconButton>
-              </Tooltip>
-            } />
-          ))}
-        </Tabs>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title="Add tab">
-            <IconButton onClick={addTab}><AddIcon /></IconButton>
-          </Tooltip>
-        </div>
-      </Box>
-      <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-        {graphTab ? <GraphSelection graphTab={graphTab} setGraphTab={setGraphTab} /> : <></>}
-        <div style={{ flex: 1, margin: '12px' }}>{graphComponent}</div>
-      </div>
+    <div style={{ height: '100%', border: '3px solid #ccc', borderRadius: '10px', margin: '0 10px', display: 'flex', flexDirection: 'column' }}>
+      {tabsComponent}
+      {containerComponent}
     </div>
   );
 }
+
+export type GraphContainerProps = {
+  dataRef: React.MutableRefObject<DataFrame>,
+};
