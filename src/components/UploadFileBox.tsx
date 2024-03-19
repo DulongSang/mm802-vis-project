@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
 import { UploadFile as UploadFileIcon } from '@mui/icons-material';
-import { DataFrame } from 'danfojs';
 
 import { parseDataFile } from '../utils/parseDataFile';
+import { FireResponseDataRow } from '../types/DataSetInfo';
 
 export function UploadFileBox(props: UploadFileBoxProps) {
   const { dataRef } = props;
@@ -49,5 +49,5 @@ export function UploadFileBox(props: UploadFileBoxProps) {
 }
 
 export type UploadFileBoxProps = {
-  dataRef: React.MutableRefObject<DataFrame>,
+  dataRef: React.MutableRefObject<FireResponseDataRow[]>,
 };

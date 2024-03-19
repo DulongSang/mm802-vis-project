@@ -3,15 +3,15 @@ import './App.css';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DataFrame } from 'danfojs';
 
 import { GraphContainer } from './components/graphs/GraphContainer';
 import { FilterSidebar } from './components/Filter/FilterSidebar';
 import { UploadFileBox } from './components/UploadFileBox';
+import { FireResponseDataRow } from './types/DataSetInfo';
 
 
 function App() {
-  const dataRef = useRef<DataFrame>(new DataFrame());
+  const dataRef = useRef<FireResponseDataRow[]>([]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -1,8 +1,8 @@
 import { PieChart } from '@mui/x-charts';
-import { DataFrame } from 'danfojs';
 
 import { PieChartTab } from '../../types/GraphTab';
 import { groupData } from '../../utils/processData';
+import { FireResponseDataRow } from '../../types/DataSetInfo';
 
 export function PieChartGraph(props: PieChartGraphProps) {
   const { dataRef, graphTab } = props;
@@ -29,6 +29,6 @@ export function PieChartGraph(props: PieChartGraphProps) {
 }
 
 export type PieChartGraphProps = {
-  dataRef: React.MutableRefObject<DataFrame>,
+  dataRef: React.MutableRefObject<FireResponseDataRow[]>,
   graphTab: PieChartTab,
 }

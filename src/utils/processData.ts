@@ -1,13 +1,34 @@
-import { DataFrame, toJSON } from 'danfojs';
+import { FilterValue } from '../types/FilterValue';
+import { FireResponseDataRow, GroupByColumnName, GroupByValueColumnName } from '../types/DataSetInfo';
 
 export const groupAggOpValues = ['count', 'sum', 'max', 'min', 'mean'] as const;
 export type GroupAggOp = typeof groupAggOpValues[number];
 
-export function groupData(data: DataFrame, op: GroupAggOp, groupByColumn: string, valueColumn?: string): { label: string, value: number }[] {
-    valueColumn = valueColumn ?? groupByColumn;
-    const df = data.groupby([groupByColumn]).col([valueColumn])[op]();
-    const colNameMapping = Object.fromEntries([[df.columns[0], 'label'], [df.columns[1], 'value']]);
-    df.rename(colNameMapping, { inplace: true });
-    df.asType('label', 'string', { inplace: true });
-    return toJSON(df) as { label: string, value: number }[];
+export function groupData(
+    rows: FireResponseDataRow[],
+    op: GroupAggOp,
+    groupByColumn: GroupByColumnName,
+    valueColumn?: GroupByValueColumnName
+): { label: string, value: number }[] {
+    if (op !== 'count' && !valueColumn) {
+        throw new Error('valueColumn is required for operations other than count');
+    }
+    
+    const groups: { [category: string | number]: FireResponseDataRow[] } = rows.reduce((group, item) => {
+        const category = item[groupByColumn];
+        if (!group[category]) {
+            group[category] = [];
+        }
+        group[category].push(item);
+        return group;
+    }, {} as { [category: string | number]: FireResponseDataRow[] });
+
+    switch (op) {
+        case 'count':
+            return Object.entries(groups).map(([label, group]) => ({ label, value: group.length }));
+        case 'sum':
+            return Object.entries(groups).map(([label, group]) => ({ label, value: group.reduce((sum, item) => sum + item[valueColumn!], 0) }));
+        default:
+            throw new Error('Unsupported operation');
+    }
 }

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Box, IconButton, Tab, Tabs, Tooltip } from "@mui/material";
 import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
-import { DataFrame } from "danfojs";
 
 import { GraphSelection } from "./GraphSelection";
 import { MapGraph } from "./MapGraph";
 import { PieChartGraph } from "./PieChartGraph";
 
 import { GraphTab } from "../../types/GraphTab";
+import { FireResponseDataRow } from "../../types/DataSetInfo";
 
 
 export function GraphContainer(props: GraphContainerProps) {
@@ -88,5 +88,5 @@ export function GraphContainer(props: GraphContainerProps) {
 }
 
 export type GraphContainerProps = {
-  dataRef: React.MutableRefObject<DataFrame>,
+  dataRef: React.MutableRefObject<FireResponseDataRow[]>,
 };

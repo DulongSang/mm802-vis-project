@@ -24,7 +24,7 @@ export type FireResponseDataRow = {
     year: number,
     month: number,
     dayofweek: DayOfWeek,
-    datetime: string,
+    datetime: Date,
     event_duration_mins: number,
     event_description: EventDescription,
     latitude: number,
@@ -52,11 +52,9 @@ export const groupByColumnNames = [
     'event_description',
     'response_code',
 ] as const;
-
 export type GroupByColumnName = typeof groupByColumnNames[number];
 
 export const groupByValueColumnNames = [
     'event_duration_mins',
 ] as const;
-
 export type GroupByValueColumnName = typeof groupByValueColumnNames[number];
