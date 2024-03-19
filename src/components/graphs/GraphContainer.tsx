@@ -11,7 +11,7 @@ import { FireResponseDataRow } from "../../types/DataSetInfo";
 
 
 export function GraphContainer(props: GraphContainerProps) {
-  const { dataRef } = props;
+  const { data } = props;
 
   const [tabs, setTabs] = useState<GraphTab[]>([]);
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -48,7 +48,7 @@ export function GraphContainer(props: GraphContainerProps) {
       case "Map":
         return <MapGraph />;
       case "Pie Chart":
-        return <PieChartGraph dataRef={dataRef} graphTab={graphTab} />;
+        return <PieChartGraph data={data} graphTab={graphTab} />;
       default:
         return <></>;
     }
@@ -88,5 +88,5 @@ export function GraphContainer(props: GraphContainerProps) {
 }
 
 export type GraphContainerProps = {
-  dataRef: React.MutableRefObject<FireResponseDataRow[]>,
+  data: FireResponseDataRow[],
 };

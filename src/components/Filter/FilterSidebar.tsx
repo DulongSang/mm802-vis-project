@@ -1,20 +1,23 @@
 import { useState } from 'react';
-
 import { Button, Divider } from '@mui/material';
 import { Add as AddIcon } from '@mui/icons-material';
 
 import { FilterItem } from './FilterItem';
-
+import { filterData } from '../../utils/processData';
 import { FilterValue } from '../../types/FilterValue';
+import { FireResponseDataRow } from '../../types/DataSetInfo';
 
-export function FilterSidebar() {
+export function FilterSidebar(props: FilterSidebarProps) {
+  const { data, setFilteredData } = props;
   const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
 
   const addFilter = () => {
     setFilterValues([...filterValues, { type: "" }]);
   };
-
   const clearFilters = () => setFilterValues([]);
+  const applyFilters = () => {
+    setFilteredData(filterData(data, filterValues));
+  };
 
   return (
     <div style={{ height: '100%', backgroundColor: '#cfcfcf', borderRadius: '10px', margin: '0 10px' }}>
@@ -36,10 +39,19 @@ export function FilterSidebar() {
         >
           Clear filters
         </Button>
-        <Button variant="contained" style={{ backgroundColor: '#52c400' }}>
+        <Button
+          variant="contained"
+          style={{ backgroundColor: '#52c400' }}
+          onClick={applyFilters}
+        >
           Apply filters
         </Button>
       </div>
     </div>
   );
 }
+
+export type FilterSidebarProps = {
+  data: FireResponseDataRow[],
+  setFilteredData: React.Dispatch<React.SetStateAction<FireResponseDataRow[]>>,
+};

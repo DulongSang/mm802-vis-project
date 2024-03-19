@@ -6,7 +6,7 @@ import { parseDataFile } from '../utils/parseDataFile';
 import { FireResponseDataRow } from '../types/DataSetInfo';
 
 export function UploadFileBox(props: UploadFileBoxProps) {
-  const { dataRef } = props;
+  const { setData, setFilteredData } = props;
 
   const [filename, setFilename] = useState<string>('Please Upload File First!');
 
@@ -21,7 +21,9 @@ export function UploadFileBox(props: UploadFileBoxProps) {
     if (!event.target.files || event.target.files.length === 0) {
       return;
     }
-    dataRef.current = await parseDataFile(event.target.files[0]);
+    const data = await parseDataFile(event.target.files[0]);
+    setData(data);
+    setFilteredData(data);
     setFilename(event.target.files[0].name);
   };
 
@@ -49,5 +51,6 @@ export function UploadFileBox(props: UploadFileBoxProps) {
 }
 
 export type UploadFileBoxProps = {
-  dataRef: React.MutableRefObject<FireResponseDataRow[]>,
+  setData: React.Dispatch<React.SetStateAction<FireResponseDataRow[]>>,
+  setFilteredData: React.Dispatch<React.SetStateAction<FireResponseDataRow[]>>,
 };
