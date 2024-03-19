@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -11,7 +11,8 @@ import { FireResponseDataRow } from './types/DataSetInfo';
 
 
 function App() {
-  const dataRef = useRef<FireResponseDataRow[]>([]);
+  const [data, setData] = useState<FireResponseDataRow[]>([]);
+  const [filteredData, setFilteredData] = useState<FireResponseDataRow[]>([]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -19,15 +20,15 @@ function App() {
       <h1>Visualization of Fire Response in Edmonton</h1>
       <div style={{ display: 'flex', flex: 1 }}>
         <div style={{ flex: 4 }}>
-          <GraphContainer dataRef={dataRef} />
+          <GraphContainer data={filteredData} />
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <div style={{ flex: 1, height: '100%' }}>
-              <FilterSidebar />
+              <FilterSidebar data={data} setFilteredData={setFilteredData} />
             </div>
             <div>
-              <UploadFileBox dataRef={dataRef} />
+              <UploadFileBox setData={setData} setFilteredData={setFilteredData} />
             </div>
           </div>
         </div>
