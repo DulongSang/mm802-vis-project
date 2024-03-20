@@ -14,15 +14,18 @@ export function FilterSidebar(props: FilterSidebarProps) {
   const addFilter = () => {
     setFilterValues([...filterValues, { type: "" }]);
   };
-  const clearFilters = () => setFilterValues([]);
+  const clearFilters = () => {
+    setFilterValues([]);
+    setFilteredData(data);
+  };
   const applyFilters = () => {
     setFilteredData(filterData(data, filterValues));
   };
 
   return (
-    <div style={{ height: '100%', backgroundColor: '#cfcfcf', borderRadius: '10px', margin: '0 10px' }}>
+    <div style={{ backgroundColor: 'white', borderRadius: '10px', padding: '10px', height: '100%' }}>
       <div style={{ fontSize: '24px', fontWeight: 'bold', textAlign: 'left', marginBottom: '10px' }}>Filters</div>
-      <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
+      <ul style={{ listStyleType: 'none', paddingLeft: 0, overflowY: 'auto', maxHeight: '66vh' /* workaround */ }}>
         {filterValues.map((filterValue, index) => (<FilterItem key={index} setFilterValues={setFilterValues} filterValues={filterValues} index={index} />))}
       </ul>
       <div>

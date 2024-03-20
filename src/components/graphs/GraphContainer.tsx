@@ -75,12 +75,14 @@ export function GraphContainer(props: GraphContainerProps) {
   const containerComponent = (
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
       {graphTab ? <GraphSelection graphTab={graphTab} setGraphTab={setGraphTab} /> : <></>}
-      <div style={{ flex: 1, margin: '12px' }}>{graphComponent}</div>
+      <div style={{ flex: 1, margin: '12px', display: 'flex', alignItems: 'center' }}>
+        {graphComponent}
+      </div>
     </div>
   );
 
   return (
-    <div style={{ height: '100%', border: '3px solid #ccc', borderRadius: '10px', margin: '0 10px', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ height: '100%', borderRadius: '10px', margin: '0 10px', display: 'flex', flexDirection: 'column', backgroundColor: 'white' }}>
       {tabsComponent}
       {containerComponent}
     </div>
