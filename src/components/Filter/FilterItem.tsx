@@ -3,6 +3,8 @@ import { Delete as DeleteIcon } from "@mui/icons-material";
 
 import { DateRangeSelect } from "./DateRangeSelect";
 import { DayOfWeekSelect } from "./DayOfWeekSelect";
+import { EventDescriptionSelect } from "./EventDescriptionSelect";
+import { ResponseCodeSelect } from "./ResponseCodeSelect";
 import { FilterValue, newFilterValue, filterTypes } from "../../types/FilterValue";
 
 export function FilterItem(props: FilterItemProps) {
@@ -26,6 +28,10 @@ export function FilterItem(props: FilterItemProps) {
         return <DateRangeSelect setFilterValue={setFilterValue} filterValue={filterValue} />;
       case "Day of Week":
         return <DayOfWeekSelect setFilterValue={setFilterValue} filterValue={filterValue} />;
+      case "Event Description":
+        return <EventDescriptionSelect setFilterValue={setFilterValue} filterValue={filterValue} />;
+      case "Response Code":
+        return <ResponseCodeSelect setFilterValue={setFilterValue} filterValue={filterValue} />;
       default:
         return <div>Error: Unknown Filter Type</div>;
     }
