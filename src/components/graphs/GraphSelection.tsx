@@ -24,7 +24,7 @@ export function GraphSelection(props: GraphSelectionProps) {
   };
 
   const graphTypeSelect = getSelectComponent("Graph Type", graphTabTypes, graphTab.type, (event) => {
-    setGraphTab({ ...graphTab, type: event.target.value as GraphTab['type'] });
+    setGraphTab({ ...graphTab, type: event.target.value as GraphTab['type'], title: event.target.value });
   });
 
   const graphOptions = (() => {

@@ -35,7 +35,6 @@ export function groupData(
 
 export function filterData(rows: FireResponseDataRow[], filters: FilterValue[]): FireResponseDataRow[] {
     let indices = rows.map((_, index) => index);
-    console.log(`before: ${indices.length}`);
     for (const filter of filters) {
         switch (filter.type) {
             case 'Date Range':
@@ -49,11 +48,17 @@ export function filterData(rows: FireResponseDataRow[], filters: FilterValue[]):
             case 'Day of Week':
                 indices = indices.filter(index => filter.days.includes(rows[index].dayofweek));
                 break;
+            case 'Event Description':
+                indices = indices.filter(index => filter.eventDescriptions.includes(rows[index].event_description));
+                break;
+            case 'Response Code':
+                indices = indices.filter(index => filter.responseCodes.includes(rows[index].response_code));
+                break;
             default:
                 break;
         }
     }
 
-    console.log(`after: ${indices.length}`);
+    console.log(`DEBUG: filtered rows ${rows.length} -> ${indices.length}`);
     return indices.map(index => rows[index]);
 }

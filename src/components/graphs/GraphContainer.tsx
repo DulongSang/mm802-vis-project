@@ -56,13 +56,15 @@ export function GraphContainer(props: GraphContainerProps) {
   
   const tabsComponent = (
     <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex' }}>
-      <Tabs value={activeTab} onChange={handleTabChange}>
+      <Tabs value={activeTab} onChange={handleTabChange} variant="scrollable" scrollButtons="auto">
         {tabs.map((tab, index) => (
-          <Tab key={index} label={tab.title} iconPosition="end" icon={
-            <Tooltip title="Remove Tab">
-              <IconButton className=".icon-button" size="small" onClick={(event) => removeTab(event, index)}><ClearIcon fontSize="small" /></IconButton>
-            </Tooltip>
-          } />
+          <Tab key={index} label={tab.title}
+            onAuxClick={(event) => event.button === 1 /* mouse middle button */ ? removeTab(event, index) : undefined}
+            iconPosition="end" icon={
+              <Tooltip title="Remove Tab">
+                <IconButton className=".icon-button" size="small" onClick={(event) => removeTab(event, index)}><ClearIcon fontSize="small" /></IconButton>
+              </Tooltip>
+            } />
         ))}
       </Tabs>
       <div style={{ display: 'flex', alignItems: 'center' }}>

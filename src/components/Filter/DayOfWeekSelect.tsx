@@ -1,8 +1,8 @@
 import { Button, ButtonGroup } from "@mui/material";
 
 import { DayOfWeekFilter } from "../../types/FilterValue";
+import { dayOfWeekValues } from "../../types/DataSetInfo";
 
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
 const DAY_ABBRS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export function DayOfWeekSelect(props: DayOfWeekSelectProps) {
@@ -11,7 +11,7 @@ export function DayOfWeekSelect(props: DayOfWeekSelectProps) {
 
   return (
     <ButtonGroup fullWidth>
-      {DAYS.map((day, index) => (
+      {dayOfWeekValues.map((day, index) => (
         <Button
           key={day}
           variant={days.includes(day) ? "contained" : "outlined"}
