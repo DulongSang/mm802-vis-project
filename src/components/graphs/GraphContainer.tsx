@@ -46,7 +46,7 @@ export function GraphContainer(props: GraphContainerProps) {
     }
     switch (graphTab.type) {
       case "Map":
-        return <MapGraph />;
+        return <MapGraph data={data}/>;
       case "Pie Chart":
         return <PieChartGraph data={data} graphTab={graphTab} />;
       default:
