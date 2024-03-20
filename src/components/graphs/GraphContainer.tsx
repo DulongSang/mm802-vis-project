@@ -5,6 +5,7 @@ import { Add as AddIcon, Clear as ClearIcon } from "@mui/icons-material";
 import { GraphSelection } from "./GraphSelection";
 import { MapGraph } from "./MapGraph";
 import { PieChartGraph } from "./PieChartGraph";
+import { BarChartGraph } from "./BarChartGraph";
 
 import { GraphTab } from "../../types/GraphTab";
 import { FireResponseDataRow } from "../../types/DataSetInfo";
@@ -49,6 +50,8 @@ export function GraphContainer(props: GraphContainerProps) {
         return <MapGraph data={data}/>;
       case "Pie Chart":
         return <PieChartGraph data={data} graphTab={graphTab} />;
+      case "Bar Chart":
+        return <BarChartGraph data={data} graphTab={graphTab} />;
       default:
         return <></>;
     }
