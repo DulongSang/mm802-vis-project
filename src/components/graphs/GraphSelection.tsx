@@ -1,7 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select"
 
-import { GraphTab, PieChartTab, graphTabTypes } from "../../types/GraphTab";
+import { GraphTab, PieChartTab, BarChartTab, graphTabTypes } from "../../types/GraphTab";
 import { groupByColumnNames, groupByValueColumnNames } from "../../types/DataSetInfo";
 import { groupAggOpValues } from "../../utils/processData";
 
@@ -45,6 +45,25 @@ export function GraphSelection(props: GraphSelectionProps) {
               : <></>}
           </>
         );
+      case "Bar Chart":
+        return (
+          <>
+            {getSelectComponent("Aggregation", groupAggOpValues, graphTab.groupAggOp ?? "", (event) => {
+              setGraphTab({ ...graphTab, groupAggOp: event.target.value as BarChartTab['groupAggOp'] });
+            })}
+            {getSelectComponent("Group By", groupByColumnNames, graphTab.groupByColumn ?? "", (event) => {
+              setGraphTab({ ...graphTab, groupByColumn: event.target.value as BarChartTab['groupByColumn'] });
+            })}
+            {getSelectComponent("Stack By", (groupByColumnNames as readonly string[]).concat(['None']), graphTab.stackByColumn ?? "", (event) => {
+              setGraphTab({ ...graphTab, stackByColumn: event.target.value as BarChartTab['stackByColumn'] });
+            })}
+            {graphTab.groupAggOp !== 'count'
+              ? (getSelectComponent("Value", groupByValueColumnNames, graphTab.valueColumn ?? "", (event) => {
+                  setGraphTab({ ...graphTab, valueColumn: event.target.value as BarChartTab['valueColumn'] });
+                }))
+              : <></>}
+          </>
+        )
       case "Map":
         return <></>;
       default:

@@ -35,7 +35,7 @@ export type FilterValue =
     | EmptyFilter;
 export type FilterType = FilterValue["type"];
 
-export const filterTypes: FilterType[] = ["Date Range", "Day of Week", "Event Description", "Response Code", ""];
+export const filterTypes: FilterType[] = ["Date Range", "Day of Week", "Event Description", "Response Code"];
 
 export function newFilterValue(type: FilterType): FilterValue {
     switch (type) {
