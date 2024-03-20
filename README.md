@@ -15,7 +15,7 @@
 npm install
 ```
 
-## Available Scripts
+## React Scripts
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -42,6 +42,16 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+
+## Other Scripts
+
+### `scripts/process_data.py`
+
+Data files exported from the [source](#data-source) should be processed before uploading to the app.
+
+```bash
+python3 scripts/process_data.py -f <input-file> [-o 'fire_response_data.csv'] [--date-after '2023-12-01']
+```
 
 ## Contribution Guidelines
 
