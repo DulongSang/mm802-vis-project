@@ -6,6 +6,7 @@ import { GraphSelection } from "./GraphSelection";
 import { MapGraph } from "./MapGraph";
 import { PieChartGraph } from "./PieChartGraph";
 import { BarChartGraph } from "./BarChartGraph";
+import { LineChartGraph } from "./LineChartGraph";
 
 import { GraphTab } from "../../types/GraphTab";
 import { FireResponseDataRow } from "../../types/DataSetInfo";
@@ -52,6 +53,8 @@ export function GraphContainer(props: GraphContainerProps) {
         return <PieChartGraph data={data} graphTab={graphTab} />;
       case "Bar Chart":
         return <BarChartGraph data={data} graphTab={graphTab} />;
+      case "Line Chart":
+        return <LineChartGraph data={data} graphTab={graphTab} />;
       default:
         return <></>;
     }

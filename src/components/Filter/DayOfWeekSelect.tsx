@@ -3,7 +3,7 @@ import { Button, ButtonGroup } from "@mui/material";
 import { DayOfWeekFilter } from "../../types/FilterValue";
 import { dayOfWeekValues } from "../../types/DataSetInfo";
 
-const DAY_ABBRS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const DAY_ABBRS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export function DayOfWeekSelect(props: DayOfWeekSelectProps) {
   const { filterValue, setFilterValue } = props;

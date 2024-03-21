@@ -1,6 +1,6 @@
 import Papa from 'papaparse';
 
-import { FireResponseDataRow, ResponseCode, DayOfWeek, EventDescription } from '../types/DataSetInfo';
+import { FireResponseDataRow, EventDescription, ResponseCode, monthValues, dayOfWeekValues } from '../types/DataSetInfo';
 
 export async function parseDataFile(file: File): Promise<FireResponseDataRow[]> {
     return new Promise((resolve, reject) => {
@@ -19,11 +19,13 @@ export async function parseDataFile(file: File): Promise<FireResponseDataRow[]> 
 
 function parseData(data: any[]): FireResponseDataRow[] {
     return data.map((row) => {
+        const datetime = new Date(row.datetime);
+
         return {
-            year: parseInt(row.year),
-            month: parseInt(row.month),
-            dayofweek: row.dayofweek as DayOfWeek,
-            datetime: new Date(row.datetime),
+            year: datetime.getFullYear(),
+            month: monthValues[datetime.getMonth()],
+            dayofweek: dayOfWeekValues[datetime.getDay()],
+            datetime: datetime,
             event_duration_mins: parseInt(row.event_duration_mins),
             event_description: row.event_description as EventDescription,
             latitude: parseFloat(row.latitude),

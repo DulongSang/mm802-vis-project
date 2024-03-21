@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select"
 
-import { GraphTab, PieChartTab, BarChartTab, graphTabTypes } from "../../types/GraphTab";
-import { groupByColumnNames, groupByValueColumnNames } from "../../types/DataSetInfo";
+import { GraphTab, PieChartTab, BarChartTab, LineChartTab, graphTabTypes } from "../../types/GraphTab";
+import { groupByColumnNames, groupByValueColumnNames, nominalColumnNames } from "../../types/DataSetInfo";
 import { groupAggOpValues } from "../../utils/processData";
 
 export function GraphSelection(props: GraphSelectionProps) {
@@ -62,6 +62,17 @@ export function GraphSelection(props: GraphSelectionProps) {
                   setGraphTab({ ...graphTab, valueColumn: event.target.value as BarChartTab['valueColumn'] });
                 }))
               : <></>}
+          </>
+        )
+      case "Line Chart":
+        return (
+          <>
+            {getSelectComponent("Period", ['day', 'month', 'year'], (graphTab as LineChartTab).period ?? "", (event) => {
+              setGraphTab({ ...graphTab, period: event.target.value as LineChartTab['period'] });
+            })}
+            {getSelectComponent("Column", (nominalColumnNames as readonly string[]).concat(['None']), graphTab.column ?? "", (event) => {
+              setGraphTab({ ...graphTab, column: event.target.value as LineChartTab['column'] });
+            })}
           </>
         )
       case "Map":

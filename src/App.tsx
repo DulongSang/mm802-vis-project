@@ -18,7 +18,7 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <div className="App" style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: 'linear-gradient(#f2e3f8, #dcebfd, #def5ee)' }}>
-      <h1 style={{ fontSize: '56px', fontWeight: 'normal' }}>Visualization of Fire Response in Edmonton</h1>
+      <h1 style={{ fontSize: '56px' }}>📈Visualization of Fire Response in Edmonton🔥</h1>
       <div style={{ display: 'flex', flex: 1 }}>
         <div style={{ flex: 4 }}>
           <GraphContainer data={filteredData} />

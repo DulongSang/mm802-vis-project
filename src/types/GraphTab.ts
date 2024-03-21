@@ -1,4 +1,4 @@
-import { GroupByColumnName, GroupByValueColumnName } from "./DataSetInfo";
+import { GroupByColumnName, GroupByValueColumnName, NominalColumnName } from "./DataSetInfo";
 import { GroupAggOp } from "../utils/processData";
 
 export type GraphTabBase = {
@@ -21,13 +21,19 @@ export type BarChartTab = GraphTabBase & {
     valueColumn?: GroupByValueColumnName;
 };
 
+export type LineChartTab = GraphTabBase & {
+    type: 'Line Chart';
+    period?: 'day' | 'month' | 'year';
+    column?: NominalColumnName | 'None';
+};
+
 export type MapTab = GraphTabBase & {
     type: 'Map';
 };
 
 export type EmptyTab = GraphTabBase & { type: '' };
 
-export type GraphTab = PieChartTab | BarChartTab | MapTab | EmptyTab;
+export type GraphTab = PieChartTab | BarChartTab | MapTab | LineChartTab | EmptyTab;
 export type GraphTabType = GraphTab['type'];
 
-export const graphTabTypes: GraphTabType[] = ['Pie Chart', 'Bar Chart', 'Map'];
+export const graphTabTypes: GraphTabType[] = ['Pie Chart', 'Bar Chart', 'Line Chart', 'Map'];
