@@ -1,5 +1,5 @@
 import { FilterValue } from '../types/FilterValue';
-import { FireResponseDataRow, GroupByColumnName, GroupByValueColumnName } from '../types/DataSetInfo';
+import { FireResponseDataRow, GroupByColumnName, GroupByValueColumnName, NominalColumnName } from '../types/DataSetInfo';
 
 export const groupAggOpValues = ['count', 'sum', 'max', 'min', 'mean'] as const;
 export type GroupAggOp = typeof groupAggOpValues[number];
@@ -88,6 +88,82 @@ export function barChartGroupData(
     };
 }
 
+function getMinMaxDate(dates: Date[]): { minDate: Date, maxDate: Date } {
+    let minDate = dates[0];
+    let maxDate = dates[0];
+    for (const date of dates) {
+        if (date < minDate) {
+            minDate = date;
+        }
+        if (date > maxDate) {
+            maxDate = date;
+        }
+    }
+    return { minDate, maxDate };
+}
+
+function getDateRange(minDate: Date, maxDate: Date, period: 'day' | 'month' | 'year'): string[] {
+    const dateRange: string[] = [];
+    let date = minDate;
+    while (date <= maxDate) {
+        if (period === 'day') {
+            dateRange.push(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`);
+            date = new Date(date.getTime() + 24 * 60 * 60 * 1000);
+        } else if (period === 'month') {
+            dateRange.push(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`);
+            if (date.getMonth() === 11) {
+                date = new Date(date.getFullYear() + 1, 0, 1);
+            } else {
+                date = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+            }
+        } else {
+            dateRange.push(date.getFullYear().toString());
+            date = new Date(date.getFullYear() + 1, 0, 1);
+        }
+    }
+    return dateRange;
+}
+
+function countDate(dates: Date[], period: 'day' | 'month' | 'year', dateRange: string[]): (number | null)[] {
+    const countsMap: Map<string, number> = new Map();
+
+    dates.forEach(date => {
+        let label: string;
+        if (period === 'day') {
+            label = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        } else if (period === 'month') {
+            label = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        } else {
+            label = date.getFullYear().toString();
+        }
+
+        countsMap.set(label, (countsMap.get(label) || 0) + 1);
+    });
+
+    return dateRange.map(label => countsMap.get(label) || null);
+}
+
+export function lineChartGroupData(rows: FireResponseDataRow[], period: 'day' | 'month' | 'year', column: NominalColumnName | 'None'): {
+    series: { data: (number | null)[], label?: string }[],
+    xAxis: { data: string[], scaleType: 'point' }[],
+} {
+    const dates = rows.map(row => row.datetime);
+    const { minDate, maxDate } = getMinMaxDate(dates);
+    const dateRange = getDateRange(minDate, maxDate, period);
+    if (column === 'None') {
+        return {
+            series: [{ data: countDate(dates, period, dateRange) }],
+            xAxis: [{ data: dateRange, scaleType: 'point' }],
+        };
+    }
+    const groups = groupBy(rows, column);
+    const series = Object.entries(groups).map(([label, group]) => ({
+        label, data: countDate(group.map(row => row.datetime), period, dateRange)
+    }));
+
+    return { series, xAxis: [{ data: dateRange, scaleType: 'point' }] };
+}
+
 export function filterData(rows: FireResponseDataRow[], filters: FilterValue[]): FireResponseDataRow[] {
     let indices = rows.map((_, index) => index);
     for (const filter of filters) {
@@ -114,6 +190,5 @@ export function filterData(rows: FireResponseDataRow[], filters: FilterValue[]):
         }
     }
 
-    console.log(`DEBUG: filtered rows ${rows.length} -> ${indices.length}`);
     return indices.map(index => rows[index]);
 }

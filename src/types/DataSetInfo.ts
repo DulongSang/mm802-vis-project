@@ -1,5 +1,6 @@
 export const responseCodeValues = ['A', 'B', 'C', 'D', 'E', 'unknown'] as const;
-export const dayOfWeekValues = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const;
+export const dayOfWeekValues = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as const;
+export const monthValues = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as const;
 export const eventDescriptionValues = [
     'MEDICAL',
     'ALARMS',
@@ -18,11 +19,12 @@ export const eventDescriptionValues = [
 
 export type ResponseCode = typeof responseCodeValues[number];
 export type DayOfWeek = typeof dayOfWeekValues[number];
+export type Month = typeof monthValues[number];
 export type EventDescription = typeof eventDescriptionValues[number];
 
 export type FireResponseDataRow = {
     year: number,
-    month: number,
+    month: Month,
     dayofweek: DayOfWeek,
     datetime: Date,
     event_duration_mins: number,
@@ -44,6 +46,12 @@ export const columnNames: ColumnName[] = [
     'longitude',
     'response_code',
 ];
+
+export const nominalColumnNames = [
+    'event_description',
+    'response_code',
+] as const;
+export type NominalColumnName = typeof nominalColumnNames[number];
 
 export const groupByColumnNames = [
     'year',

@@ -38,9 +38,6 @@ event_type_description: text,
 """
 
 COLUMN_MAPPING = {
-    'dispatch_year': 'year',
-    'dispatch_month': 'month',
-    'dispatch_dayofweek': 'dayofweek',
     'dispatch_datetime': 'datetime',
     'event_duration_mins': 'event_duration_mins',
     'event_description': 'event_description',
