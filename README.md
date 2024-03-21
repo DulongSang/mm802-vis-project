@@ -47,7 +47,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `scripts/process_data.py`
 
-Data files exported from the [source](#data-source) should be processed before uploading to the app.
+Data files exported from the [source](#data-source) must be processed before uploading to the app.
 
 ```bash
 python3 scripts/process_data.py -f <input-file> [-o 'fire_response_data.csv'] [--date-after '2023-12-01']

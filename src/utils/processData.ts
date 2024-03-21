@@ -4,6 +4,14 @@ import { FireResponseDataRow, GroupByColumnName, GroupByValueColumnName, Nominal
 export const groupAggOpValues = ['count', 'sum', 'max', 'min', 'mean'] as const;
 export type GroupAggOp = typeof groupAggOpValues[number];
 
+/**
+ * Group an array of objects by a key.
+ * 
+ * Example: [{a: 1, b: 2}, {a: 1, b: 3}, {a: 2, b: 4}] => {'1': [{a: 1, b: 2}, {a: 1, b: 3}], '2': [{a: 2, b: 4}]}
+ * 
+ * @param rows 
+ * @param groupByKey the object field to group by
+ */
 function groupBy<T extends Object>(rows: T[], groupByKey: keyof T): { [category: string]: T[] } {
     return rows.reduce((group, item) => {
         let category: any = item[groupByKey];
@@ -18,6 +26,14 @@ function groupBy<T extends Object>(rows: T[], groupByKey: keyof T): { [category:
     }, {} as { [category: string | number]: T[] });
 }
 
+/**
+ * Group data by a column and perform an aggregation operation.
+ * 
+ * @param rows 
+ * @param op 'count', 'sum', 'max', 'min', 'mean'
+ * @param groupByColumn the column to group by
+ * @param valueColumn the column to perform the operation on if op is not 'count'
+ */
 export function groupData(
     rows: FireResponseDataRow[],
     op: GroupAggOp,
@@ -29,7 +45,6 @@ export function groupData(
     }
     
     const groups = groupBy(rows, groupByColumn);
-
     switch (op) {
         case 'count':
             return Object.entries(groups).map(([label, group]) => ({ label, value: group.length }));
@@ -46,6 +61,15 @@ export function groupData(
     }
 }
 
+/**
+ * Group data by a column and perform an aggregation operation. The result is suitable for a BarChart component.
+ * 
+ * @param rows 
+ * @param op 'count', 'sum', 'max', 'min', 'mean'
+ * @param groupByColumn the bars on the x-axis
+ * @param stackByColumn the stack on the bars, or 'None' if no stacking is needed
+ * @param valueColumn the column to perform the operation on if op is not 'count'
+ */
 export function barChartGroupData(
     rows: FireResponseDataRow[],
     op: GroupAggOp,
@@ -88,6 +112,9 @@ export function barChartGroupData(
     };
 }
 
+/**
+ * Get the minimum and maximum date from an array of dates.
+ */
 function getMinMaxDate(dates: Date[]): { minDate: Date, maxDate: Date } {
     let minDate = dates[0];
     let maxDate = dates[0];
@@ -102,6 +129,14 @@ function getMinMaxDate(dates: Date[]): { minDate: Date, maxDate: Date } {
     return { minDate, maxDate };
 }
 
+/**
+ * Get a range of dates over a period of time.
+ * 
+ * Example:
+ *   getDateRange(new Date('2024-02-15'), new Date('2024-02-27'), 'day') => ['2024-02-15', '2024-02-16', '2024-02-17']
+ *   getDateRange(new Date('2023-12-19'), new Date('2024-02-22'), 'month') => ['2023-12', '2024-01', '2024-02']
+ *   getDateRange(new Date('2022-08-03'), new Date('2024-02-22'), 'year') => ['2022', '2023', '2024']
+ */
 function getDateRange(minDate: Date, maxDate: Date, period: 'day' | 'month' | 'year'): string[] {
     const dateRange: string[] = [];
     let date = minDate;
@@ -143,6 +178,13 @@ function countDate(dates: Date[], period: 'day' | 'month' | 'year', dateRange: s
     return dateRange.map(label => countsMap.get(label) || null);
 }
 
+/**
+ * Group data by a column over a specific time period. The result is suitable for a LineChart component.
+ * 
+ * @param rows 
+ * @param period 'day', 'month', 'year'
+ * @param column the column to group by, or 'None' if no grouping is needed
+ */
 export function lineChartGroupData(rows: FireResponseDataRow[], period: 'day' | 'month' | 'year', column: NominalColumnName | 'None'): {
     series: { data: (number | null)[], label?: string }[],
     xAxis: { data: string[], scaleType: 'point' }[],
